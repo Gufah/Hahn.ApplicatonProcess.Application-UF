@@ -10,8 +10,8 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Repositories
 {
     public class AssetRepository : IAssetRepository
     {
-        private readonly AssetContext _context;
-        public AssetRepository(AssetContext context)
+        private readonly Models.AssetContext _context;
+        public AssetRepository(Models.AssetContext context)
         {
             _context = context;
         }

@@ -26,29 +26,26 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AssetRequestModel>> GetAssets()
+        public async Task<IEnumerable<AssetSuccessResponseModel>> GetAssets()
         {
             var successModel = await _assetDetailService.GetAssetDetails();
-            return Ok(successModel);
+            return (IEnumerable<AssetSuccessResponseModel>)Ok(successModel);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<AssetRequestModel>> GetAssets(int id)
         {
-            return await _assetRepository.Get(id);
+            var successModel = await _assetDetailService.GetAssetDetailsById(id);
+            return Ok(successModel);
         }
 
         [HttpPost]
         public async Task<ActionResult<AssetSuccessResponseModel>> PostAssets([FromBody] AssetRequestModel assetRequestModel)
         {
             AssetValidator assetValidator = new AssetValidator(_httpClient);
-            Asset asset = new Asset();
-            asset.AssetName = assetRequestModel.AssetName;
-            asset.Broken = assetRequestModel.Broken;
-            asset.CountryOfDepartment = assetRequestModel.DepartmentCountry;
-            asset.Department = assetRequestModel.Department;
-            asset.EMailAddress = assetRequestModel.DepartmentEmail;
-
+            //Asset asset = new Asset();
+            var asset = Convert.ConvAsset(assetRequestModel);
+            
             ValidationResult validationResult = assetValidator.Validate(asset);
             if (!validationResult.IsValid)
             {
@@ -68,12 +65,7 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controllers
         [HttpPut]
         public async Task<ActionResult> PutAssets(int id, [FromBody] AssetRequestModel assetRequestModel)
         {
-            Asset asset = new Asset();
-            asset.AssetName = assetRequestModel.AssetName;
-            asset.Broken = assetRequestModel.Broken;
-            asset.CountryOfDepartment = assetRequestModel.DepartmentCountry;
-            asset.Department = assetRequestModel.Department;
-            asset.EMailAddress = assetRequestModel.DepartmentEmail; 
+            var asset = Convert.ConvAsset(assetRequestModel);
 
             if (id != asset.Id)
             {
@@ -87,13 +79,13 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAssets(int id)
         {
-            var assetToBeDeleted = await _assetRepository.Get(id);
+            var assetToBeDeleted = await _assetDetailService.GetAssetDetailsById(id);
             if (assetToBeDeleted == null)
             {
                 return NotFound();
             }
 
-            await _assetRepository.Delete(assetToBeDeleted.Id);
+            await _assetDetailService.SaveAssetDetails(assetToBeDeleted.Id);
             return NoContent();
         }
     }
