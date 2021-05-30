@@ -3,17 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework.Core", "Framework.Core", "{F1D11F75-CAFE-462B-8FCB-6B67B7CE5552}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "SharedKernel\SharedKernel.csproj", "{5A221EE6-92FF-4E59-A137-6F55349F2F67}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hahn.ApplicatonProcess.February2021", "Hahn.ApplicatonProcess.February2021", "{79CA5390-CB70-4C98-8CE8-47E5CD32672D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hahn.ApplicatonProcess.February2021.Web", "Hahn.ApplicatonProcess.February2021.Web\Hahn.ApplicatonProcess.February2021.Web.csproj", "{07318951-BC88-443E-AF81-194B7D33EC51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hahn.ApplicatonProcess.February2021.Web", "Hahn.ApplicatonProcess.February2021.Web\Hahn.ApplicatonProcess.February2021.Web.csproj", "{07318951-BC88-443E-AF81-194B7D33EC51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hahn.ApplicatonProcess.February2021.Data", "Hahn.ApplicatonProcess.February2021.Data\Hahn.ApplicatonProcess.February2021.Data.csproj", "{2A2C41CA-278F-4220-ABB4-7552D4C21C86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hahn.ApplicatonProcess.February2021.Data", "Hahn.ApplicatonProcess.February2021.Data\Hahn.ApplicatonProcess.February2021.Data.csproj", "{2A2C41CA-278F-4220-ABB4-7552D4C21C86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hahn.ApplicatonProcess.February2021.Domain", "Hahn.ApplicatonProcess.February2021.Domain\Hahn.ApplicatonProcess.February2021.Domain.csproj", "{5C31E92A-0A71-44ED-87EC-6F8EDA71E33D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hahn.ApplicatonProcess.February2021.Domain", "Hahn.ApplicatonProcess.February2021.Domain\Hahn.ApplicatonProcess.February2021.Domain.csproj", "{5C31E92A-0A71-44ED-87EC-6F8EDA71E33D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5A221EE6-92FF-4E59-A137-6F55349F2F67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A221EE6-92FF-4E59-A137-6F55349F2F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A221EE6-92FF-4E59-A137-6F55349F2F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A221EE6-92FF-4E59-A137-6F55349F2F67}.Release|Any CPU.Build.0 = Release|Any CPU
 		{07318951-BC88-443E-AF81-194B7D33EC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{07318951-BC88-443E-AF81-194B7D33EC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07318951-BC88-443E-AF81-194B7D33EC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,7 +34,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{5A221EE6-92FF-4E59-A137-6F55349F2F67} = {F1D11F75-CAFE-462B-8FCB-6B67B7CE5552}
 		{07318951-BC88-443E-AF81-194B7D33EC51} = {79CA5390-CB70-4C98-8CE8-47E5CD32672D}
 		{2A2C41CA-278F-4220-ABB4-7552D4C21C86} = {79CA5390-CB70-4C98-8CE8-47E5CD32672D}
 		{5C31E92A-0A71-44ED-87EC-6F8EDA71E33D} = {79CA5390-CB70-4C98-8CE8-47E5CD32672D}

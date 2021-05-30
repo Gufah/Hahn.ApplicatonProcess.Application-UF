@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using Hahn.ApplicatonProcess.February2021.Domain.Models;
 using Newtonsoft.Json;
+using Hahn.ApplicatonProcess.February2021.Domain.Models;
 using Newtonsoft.Json.Converters;
 using System;
 

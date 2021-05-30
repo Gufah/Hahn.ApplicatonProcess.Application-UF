@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hahn.ApplicatonProcess.February2021.Domain.Models;
+using System;
 
 namespace Hahn.ApplicatonProcess.February2021.Web.Controllers
 {
@@ -43,50 +44,93 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controllers
         public async Task<ActionResult<AssetSuccessResponseModel>> PostAssets([FromBody] AssetRequestModel assetRequestModel)
         {
             AssetValidator assetValidator = new AssetValidator(_httpClient);
-            //Asset asset = new Asset();
-            var asset = Convert.ConvAsset(assetRequestModel);
+            var asset = ModelConvert.ConvAssetRequestToModel(assetRequestModel);
             
             ValidationResult validationResult = assetValidator.Validate(asset);
+            var assetErrorResponseModel = new BaseReponseModel<object>();
+            var successResponseModel = new BaseReponseModel<object>();
             if (!validationResult.IsValid)
             {
-                var assetErrorResponseModel = new BaseReponseModel<object>();
                 assetErrorResponseModel.Success = false;
                 assetErrorResponseModel.Errors = validationResult.Errors.Select(x => x.ToString()).ToArray();
                 return BadRequest(assetErrorResponseModel);
             }
 
             var successModel = await _assetDetailService.SaveAssetDetails(asset);
-            var successResponseModel = new BaseReponseModel<AssetSuccessResponseModel>();
-            successResponseModel.Data.AssetName = successModel.AssetName;
+            if (successModel > 0)
+            {
+                dynamic responseMessage = new { message = "Asset details saved successfully" };
+                successResponseModel.Data = responseMessage;
+            } else
+            {
+                assetErrorResponseModel.Success = false;
+                assetErrorResponseModel.Errors = new string[] { "Asset details could not be save because of an error from our end, please try again" };
+                return StatusCode(StatusCodes.Status500InternalServerError, assetErrorResponseModel);
+            }
 
             return CreatedAtRoute("/", successResponseModel);
         }
 
         [HttpPut]
-        public async Task<ActionResult> PutAssets(int id, [FromBody] AssetRequestModel assetRequestModel)
+        public async Task<ActionResult> PutAssets([FromRoute]int id, [FromBody] AssetRequestModel assetRequestModel)
         {
-            var asset = Convert.ConvAsset(assetRequestModel);
-
-            if (id != asset.Id)
+            var asset = ModelConvert.ConvAssetRequestToModel(assetRequestModel);
+            var assetErrorResponseModel = new BaseReponseModel<object>();
+            var successResponseModel = new BaseReponseModel<object>();
+            if (id == null)
             {
-                return BadRequest("The Id field is empty");
+                assetErrorResponseModel.Success = false;
+                assetErrorResponseModel.Errors = new string[] { "Please provide the Id" };
+                return BadRequest(assetErrorResponseModel);
             }
 
-            var successModel = await _assetDetailService.SaveAssetDetails(asset);
-            return Ok(successModel);
+            var result = await _assetDetailService.UpdateAssetDetails(id, asset);
+            if (result == null)
+            {
+                assetErrorResponseModel.Success = false;
+                assetErrorResponseModel.Errors = new string[] { "A record with the id you specified does not exist" };
+                return NotFound(assetErrorResponseModel);
+            }
+
+            if (result.Item1 > 0)
+            {
+                dynamic responseMessage = new { message = "Asset details saved successfully" };
+                successResponseModel.Data = responseMessage;
+            }
+            else
+            {
+                assetErrorResponseModel.Success = false;
+                assetErrorResponseModel.Errors = new string[] { "Asset details could not be updated because of an error from our end, please try again" };
+                return StatusCode(StatusCodes.Status500InternalServerError, assetErrorResponseModel);
+            }
+            return Ok(successResponseModel);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAssets(int id)
         {
-            var assetToBeDeleted = await _assetDetailService.GetAssetDetailsById(id);
-            if (assetToBeDeleted == null)
+            var result = await _assetDetailService.DeleteAssetDetailsById(id);
+            var assetErrorResponseModel = new BaseReponseModel<object>();
+            var successResponseModel = new BaseReponseModel<object>();
+            if (result == null)
             {
-                return NotFound();
+                assetErrorResponseModel.Success = false;
+                assetErrorResponseModel.Errors = new string[] { "A record with the id you specified does not exist" };
+                return NotFound(assetErrorResponseModel);
             }
 
-            await _assetDetailService.SaveAssetDetails(assetToBeDeleted.Id);
-            return NoContent();
+            if (result.Item1 > 0)
+            {
+                dynamic responseMessage = new { message = "Asset details deleted successfully" };
+                successResponseModel.Data = responseMessage;
+            }
+            else
+            {
+                assetErrorResponseModel.Success = false;
+                assetErrorResponseModel.Errors = new string[] { "Asset details could not be deleted because of an error from our end, please try again" };
+                return StatusCode(StatusCodes.Status500InternalServerError, assetErrorResponseModel);
+            }
+            return Ok(successResponseModel);
         }
     }
 }

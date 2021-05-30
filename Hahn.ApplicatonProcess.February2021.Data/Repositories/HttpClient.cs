@@ -29,6 +29,11 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Repositories
             }
 
             var countryResult = await result.Content.ReadAsStringAsync();
+            if (countryResult == string.Empty)
+            {
+                return string.Empty;
+            }
+
             JObject s = JObject.Parse(countryResult);
             string countryNameResult = (string)s[0]["name"];
             return countryNameResult;

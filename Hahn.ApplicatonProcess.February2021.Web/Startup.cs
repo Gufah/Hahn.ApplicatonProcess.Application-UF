@@ -1,10 +1,13 @@
+using Hahn.ApplicatonProcess.February2021.Data.Models;
 using Hahn.ApplicatonProcess.February2021.Data.Repositories;
 using Hahn.ApplicatonProcess.February2021.Domain.Repositories;
 using Hahn.ApplicatonProcess.February2021.Domain.Repsitories;
+using Hahn.ApplicatonProcess.February2021.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,6 +38,13 @@ namespace Hahn.ApplicatonProcess.February2021.Web
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hahn.ApplicatonProcess.February2021.Web", Version = "v1" });
             });
+            services.AddHttpClient("countries", c =>
+            {
+                c.BaseAddress = new Uri("https://restcountries.eu/rest/v2/name/");
+            });
+            services.AddDbContext<AssetContext>(opt =>
+                opt.UseInMemoryDatabase(databaseName: "Asset"));
+            services.AddScoped<IAssetDetailService, AssetDetailService>();
             services.AddScoped<IAssetRepository, AssetRepository>();
             services.AddScoped<IHttpClient, HttpClient>();
         }

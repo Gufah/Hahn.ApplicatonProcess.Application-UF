@@ -9,12 +9,13 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Services
 {
     public interface IAssetDetailService
     {
-        Task<AssetSuccessResponseModel> SaveAssetDetails(Asset asset);
+        Task<int> SaveAssetDetails(Asset asset);
 
-        Task<AssetSuccessResponseModel> UpdateAssetDetails(Asset asset);
+        Task<Tuple<int>> UpdateAssetDetails(int id, Asset asset);
 
         Task<AssetSuccessResponseModel[]> GetAssetDetails();
 
         Task<AssetSuccessResponseModel> GetAssetDetailsById(int Id);
+        Task<Tuple<int>> DeleteAssetDetailsById(int id);
     }
 }

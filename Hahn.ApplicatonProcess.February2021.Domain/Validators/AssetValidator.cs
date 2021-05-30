@@ -27,8 +27,8 @@ namespace Hahn.ApplicatonProcess.February2021.Domain.Validators
 
         private bool NotOlderThanAYear(DateTime pDate)
         {
-            var oneYearAgo = pDate.AddYears(-1);
-            return pDate > oneYearAgo;
+            var oneYearAgo = DateTime.Today.AddYears(-1);
+            return pDate >= oneYearAgo;
         }
 
         private bool CountryIsValid(string pCountry)

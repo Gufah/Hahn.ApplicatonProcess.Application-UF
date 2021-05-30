@@ -10,17 +10,17 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Repositories
 {
     public class AssetRepository : IAssetRepository
     {
-        private readonly Models.AssetContext _context;
-        public AssetRepository(Models.AssetContext context)
+        private readonly AssetContext _context;
+        public AssetRepository(AssetContext context)
         {
             _context = context;
         }
 
-        public async Task Delete(int id)
+        public async Task<int> Delete(int id)
         {
             var assetToBeDeleted = await _context.Assets.FindAsync(id);
             _context.Assets.Remove(assetToBeDeleted);
-            await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Asset>> Get()
@@ -33,18 +33,16 @@ namespace Hahn.ApplicatonProcess.February2021.Data.Repositories
             return await _context.Assets.FindAsync(id);
         }
 
-        public async Task<Asset> Post(Asset asset)
+        public Task<int> Create(Asset asset)
         {
             _context.Assets.Add(asset);
-            await _context.SaveChangesAsync();
-
-            return asset;
+            return _context.SaveChangesAsync();
         }
 
-        public async Task Put(Asset asset)
+        public Task<int> Put(Asset asset)
         {
             _context.Entry(asset).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
     }
 }

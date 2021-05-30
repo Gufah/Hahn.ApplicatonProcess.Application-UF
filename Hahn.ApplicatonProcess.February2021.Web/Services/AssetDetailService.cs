@@ -16,29 +16,41 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Services
             _assetRepository = assetRepository;
         }
 
+        public async Task<Tuple<int>> DeleteAssetDetailsById(int id)
+        {
+            var assetFromDb = await _assetRepository.Get(id);
+            if (assetFromDb == null)
+            {
+                return null;
+            }
+            return new Tuple<int>(await _assetRepository.Delete(id));
+        }
+
         public async Task<AssetSuccessResponseModel[]> GetAssetDetails()
         {
             var assetDetails = await _assetRepository.Get();
-
-            throw new NotImplementedException();
+            return assetDetails.Select(x => ModelConvert.ConvAssetModelToResponse(x)).ToArray();
         }
 
         public async Task<AssetSuccessResponseModel> GetAssetDetailsById(int id)
         {
             var asset = await _assetRepository.Get(id);
-            throw new NotImplementedException();
+            return ModelConvert.ConvAssetModelToResponse(asset);
         }
 
-        public async Task<AssetSuccessResponseModel> SaveAssetDetails(Asset asset)
+        public Task<int> SaveAssetDetails(Asset asset)
         {
-            var assetDetail = await _assetRepository.Post(asset);
-            return null;
+            return _assetRepository.Create(asset);
         }
 
-        public async Task<AssetSuccessResponseModel> UpdateAssetDetails(Asset asset)
+        public async Task<Tuple<int>> UpdateAssetDetails(int id, Asset asset)
         {
-            await _assetRepository.Put(asset);
-            return null;
+            var assetFromDb = await _assetRepository.Get(id);
+            if (assetFromDb == null)
+            {
+                return null;
+            }
+            return new Tuple<int>(await _assetRepository.Put(asset));
         }
     }
 }

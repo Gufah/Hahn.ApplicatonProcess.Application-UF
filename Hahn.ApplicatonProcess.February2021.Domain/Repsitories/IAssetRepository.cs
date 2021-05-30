@@ -9,8 +9,8 @@ namespace Hahn.ApplicatonProcess.February2021.Domain.Repositories
     {
         Task<IEnumerable<Asset>> Get();
         Task<Asset> Get(int id);
-        Task<Asset> Post(Asset asset);
-        Task Put(Asset asset);
-        Task Delete(int id);
+        Task<int> Create(Asset asset);
+        Task<int> Put(Asset asset);
+        Task<int> Delete(int id);
     }
 }
