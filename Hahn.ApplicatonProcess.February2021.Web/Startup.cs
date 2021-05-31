@@ -33,15 +33,17 @@ namespace Hahn.ApplicatonProcess.February2021.Web
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hahn.ApplicatonProcess.February2021.Web", Version = "v1" });
+                c.EnableAnnotations();
             });
             services.AddHttpClient("countries", c =>
             {
                 c.BaseAddress = new Uri("https://restcountries.eu/rest/v2/name/");
             });
+            services.AddSwaggerGenNewtonsoftSupport();
             services.AddDbContext<AssetContext>(opt =>
                 opt.UseInMemoryDatabase(databaseName: "Asset"));
             services.AddScoped<IAssetDetailService, AssetDetailService>();

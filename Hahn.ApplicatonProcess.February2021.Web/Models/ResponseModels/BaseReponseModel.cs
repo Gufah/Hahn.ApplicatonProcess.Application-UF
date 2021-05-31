@@ -9,10 +9,15 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Models
     public class BaseReponseModel<T>
     {
         [JsonProperty("success")]
-        public bool Success { get; set; } = true;
+        public bool Success { get; set; } = false;
         [JsonProperty("errors")]
-        public string[] Errors { get; set; } = {};
+        public string[] Errors { get; set; } = { };
         [JsonProperty("data")]
         public T Data { get; set; }
+
+        public class ResponseMessage
+        {
+            public string message { get; set; }
+        }
     }
 }

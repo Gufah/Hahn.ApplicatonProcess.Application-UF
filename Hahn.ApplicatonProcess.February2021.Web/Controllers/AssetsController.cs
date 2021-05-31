@@ -10,10 +10,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hahn.ApplicatonProcess.February2021.Domain.Models;
 using System;
+using Swashbuckle.AspNetCore.Annotations;
+using static Hahn.ApplicatonProcess.February2021.Web.Models.BaseReponseModel<object>;
 
 namespace Hahn.ApplicatonProcess.February2021.Web.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class AssetsController : ControllerBase
     {
@@ -40,7 +43,12 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controllers
             return Ok(successModel);
         }
 
+
         [HttpPost]
+        [SwaggerOperation(Summary = "Creates a new asaset detail item")]
+        [SwaggerResponse(201, "The asset detail object was created", typeof(BaseReponseModel<ResponseMessage>))]
+        [SwaggerResponse(400, "The asset detail data is invalid", typeof(BaseReponseModel<object>))]
+        [SwaggerResponse(500, "There was an issue saving asset detail data", typeof(BaseReponseModel<object>))]
         public async Task<ActionResult<AssetSuccessResponseModel>> PostAssets([FromBody] AssetRequestModel assetRequestModel)
         {
             AssetValidator assetValidator = new AssetValidator(_httpClient);
@@ -71,7 +79,7 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Controllers
             return CreatedAtRoute("/", successResponseModel);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult> PutAssets([FromRoute]int id, [FromBody] AssetRequestModel assetRequestModel)
         {
             var asset = ModelConvert.ConvAssetRequestToModel(assetRequestModel);

@@ -2,10 +2,13 @@
 using Newtonsoft.Json;
 using Hahn.ApplicatonProcess.February2021.Domain.Models;
 using Newtonsoft.Json.Converters;
+using System.ComponentModel;
 using System;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Hahn.ApplicatonProcess.February2021.Web.Models
 {
+    [SwaggerSchema(Required = new[] { "asset_name", "department", "country", "department_email", "purchase_date" })]
     public class AssetRequestModel
     {
         [JsonProperty("asset_name")]
@@ -26,6 +29,7 @@ namespace Hahn.ApplicatonProcess.February2021.Web.Models
         public DateTime PurchaseDate { get; set; }
 
         [JsonProperty("broken")]
+        [DefaultValue(false)]
         public bool Broken { get; set; } = false;
 
     }
